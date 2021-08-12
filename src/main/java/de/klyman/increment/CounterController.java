@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.check24.response.ErrorResponse;
-import de.check24.response.MessageMoveResponse;
 import de.klyman.increment.exception.MaxValueReachedException;
 import de.klyman.increment.exception.MinValueReachedException;
 import de.klyman.increment.response.ApiErrorResponse;
