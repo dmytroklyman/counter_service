@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.klyman.increment.exception.MaxValueReachedException;
 import de.klyman.increment.exception.MinValueReachedException;
-import de.klyman.increment.response.ApiErrorResponse;
-import de.klyman.increment.response.CounterResponse;
+import de.klyman.increment.model.ApiError;
+import de.klyman.increment.model.Counter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,7 +32,7 @@ public class CounterController {
 		@ApiResponse(
 		        responseCode = "200",
 		        content = @Content(
-		        	schema = @Schema(implementation = CounterResponse.class)
+		        	schema = @Schema(implementation = Counter.class)
 		        ),
 		        description = "Counter response"
 		    )
@@ -52,14 +52,14 @@ public class CounterController {
 		@ApiResponse(
 		        responseCode = "200",
 		        content = @Content(
-		        	schema = @Schema(implementation = CounterResponse.class)
+		        	schema = @Schema(implementation = Counter.class)
 		        ),
 		        description = "Counter response"
 		    ),
 		@ApiResponse(
 				responseCode = "500",
 				content = @Content(
-					schema = @Schema(implementation = ApiErrorResponse.class)
+					schema = @Schema(implementation = ApiError.class)
 			    ),
 				description = "Counter response - error processing of the request"
 			)
@@ -69,7 +69,7 @@ public class CounterController {
 		try {
 			this.increment();
 		} catch (MaxValueReachedException ex) {
-			ApiErrorResponse errorResponse = new ApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex);
+			ApiError errorResponse = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex);
 			return this.generateResponse(errorResponse);
 		}
 
@@ -89,14 +89,14 @@ public class CounterController {
 		@ApiResponse(
 		        responseCode = "200",
 		        content = @Content(
-		        	schema = @Schema(implementation = CounterResponse.class)
+		        	schema = @Schema(implementation = Counter.class)
 		        ),
 		        description = "Counter response"
 		    ),
 		@ApiResponse(
 				responseCode = "500",
 				content = @Content(
-					schema = @Schema(implementation = ApiErrorResponse.class)
+					schema = @Schema(implementation = ApiError.class)
 			    ),
 				description = "Counter response - error processing of the request"
 			)
@@ -116,14 +116,14 @@ public class CounterController {
 		@ApiResponse(
 		        responseCode = "200",
 		        content = @Content(
-		        	schema = @Schema(implementation = CounterResponse.class)
+		        	schema = @Schema(implementation = Counter.class)
 		        ),
 		        description = "Counter response"
 		    ),
 		@ApiResponse(
 				responseCode = "500",
 				content = @Content(
-					schema = @Schema(implementation = ApiErrorResponse.class)
+					schema = @Schema(implementation = ApiError.class)
 			    ),
 				description = "Counter response - error processing of the request"
 			)
@@ -133,7 +133,7 @@ public class CounterController {
 		try {
 			this.decrement();
 		} catch (MinValueReachedException ex) {
-			ApiErrorResponse errorResponse = new ApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex);
+			ApiError errorResponse = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex);
 			return this.generateResponse(errorResponse);
 		}
 
@@ -180,7 +180,7 @@ public class CounterController {
 	 * @return Map<String, Integer>
 	 */
 	private ResponseEntity<Object> generateResponse() {
-		CounterResponse response = new CounterResponse(this.counter);
+		Counter response = new Counter(this.counter);
 		return ResponseEntity.ok(response);
 	}
 	
@@ -189,7 +189,7 @@ public class CounterController {
 	 * 
 	 * @return Map<String, Integer>
 	 */
-	private ResponseEntity<Object> generateResponse(ApiErrorResponse errorResponse) {
+	private ResponseEntity<Object> generateResponse(ApiError errorResponse) {
 		return new ResponseEntity<>(errorResponse, errorResponse.getStatus());
 	}
 

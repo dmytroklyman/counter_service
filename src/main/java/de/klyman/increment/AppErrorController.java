@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import de.klyman.increment.response.ApiErrorResponse;
+import de.klyman.increment.model.ApiError;
 
 /**
  * Application error controller which is called for unhandled errors
@@ -19,7 +19,7 @@ public class AppErrorController implements ErrorController {
 	@ResponseBody
 	public ResponseEntity<Object> getErrorPath() {
     	Exception ex = new Exception("Error processing the request");
-    	ApiErrorResponse errorResponse = new ApiErrorResponse(HttpStatus.BAD_REQUEST, ex);
+    	ApiError errorResponse = new ApiError(HttpStatus.BAD_REQUEST, ex);
 		return new ResponseEntity<>(errorResponse, errorResponse.getStatus());
 	}
 
